@@ -6,6 +6,9 @@ import java.util.ArrayList
 import java.util.{ HashSet => JavaHashSet }
 import java.util.{ List => JavaList }
 import java.util.{ Set => JavaSet }
+import java.util.{ Map => JavaMap }
+import java.util.{ Iterator => JavaIterator }
+
 
 import org.springframework.beans.factory.annotation.Autowired
 
@@ -29,6 +32,8 @@ import org.springframework.data.domain.Sort.Direction
 import org.springframework.data.domain.Sort
 import org.springframework.data.domain.Page
 import lab.crud.suport.Pagination
+import javax.persistence.Query
+import java.util.Iterator
 
 class EntityServiceImpl[Entity <: EntityBean, Repository <: EntityRepository[Entity]] extends EntityService[Entity, Repository] {
   @Autowired
@@ -126,4 +131,17 @@ class EntityServiceImpl[Entity <: EntityBean, Repository <: EntityRepository[Ent
     specification
   }
 
+  def nativeSQL(sql:String,params:JavaMap[String,Any]): JavaList[Entity] = {
+    val query:Query = this.repository.getEntityManager.createNativeQuery(sql,this.repository.getEntityClass);
+    if(params!=null&&params.size()>0){
+      val keys = params.keySet().iterator()
+      while(keys.hasNext()){
+        val key = keys.next();
+        val param = params.get();
+        query.setParameter(key, param)
+      }
+    }
+    query.getResultList.asInstanceOf[JavaList[Entity]]
+  }
+  
 }
