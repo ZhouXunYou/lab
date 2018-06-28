@@ -6,9 +6,13 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import lab.crud.repository.impl.EntityRepositoryImpl
 
+
 @EnableAutoConfiguration
+//实体包扫描路径
 @EntityScan(Array("lab.crud.scala.entity"))
+//Service扫描路径
 @ComponentScan(basePackages = Array("lab.crud.scala.service"))
+//repository 相关配置
 @EnableJpaRepositories(enableDefaultTransactions = true, repositoryBaseClass = classOf[EntityRepositoryImpl[_]],basePackages = Array("lab.crud.scala.repository"))
 class RunConfig {
   
