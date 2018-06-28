@@ -1,4 +1,4 @@
-package lab.crud.entity.superdomain
+package lab.crud.domain.superdomain
 
 import java.io.Serializable
 import java.util.Date

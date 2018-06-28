@@ -3,7 +3,7 @@ package lab.crud.scala.entity
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Table
-import lab.crud.entity.superdomain.UUIDBaseEntity
+import lab.crud.domain.superdomain.UUIDBaseEntity
 
 @Entity
 @Table(name="t_test")
