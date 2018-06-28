@@ -128,7 +128,7 @@ class EntityServiceImpl[Entity <: EntityBean, Repository <: EntityRepository[Ent
         }
       }
     }
-    specification
+    return specification
   }
 
   def nativeSQL(sql:String,params:JavaMap[String,Any]): JavaList[Entity] = {
@@ -144,7 +144,6 @@ class EntityServiceImpl[Entity <: EntityBean, Repository <: EntityRepository[Ent
         query.setParameter(key, param)
       }
     }
-    "select"
     query.getResultList.asInstanceOf[JavaList[Entity]]
   }
   
