@@ -2,7 +2,7 @@
 # lab
 实验工程项目
 	lab-crud
-		spring boot、scala
+		spring boot、JPA、scala
 		提供公共的增删改查程序接口
 	object-tools
 		javassist
