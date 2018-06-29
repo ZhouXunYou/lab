@@ -133,7 +133,7 @@ class EntityServiceImpl[Entity <: EntityBean, Repository <: EntityRepository[Ent
 
   def nativeSQL(sql:String,params:JavaMap[String,Any]): JavaList[Entity] = {
     if(!sql.trim().substring(0,6).equals("select")){
-      throw new RuntimeException("sql statement must be query")
+      throw new RuntimeException("sql statement must be execute query")
     }
     val query:Query = this.repository.getEntityManager.createNativeQuery(sql,this.repository.getEntityClass);
     if(params!=null&&params.size()>0){
