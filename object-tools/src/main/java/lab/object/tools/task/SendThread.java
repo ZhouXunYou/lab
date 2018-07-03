@@ -28,10 +28,14 @@ public class SendThread implements Runnable {
 		}
 		this.kafkaTemplate = kafkaTemplate;
 		this.classDefine = classDefine;
+		if(this.classDefine.getCount()<0) {
+			this.classDefine.setCount(Integer.MAX_VALUE);
+		}
 	}
 	@Override
 	public void run() {
 		LOG.info("Thread {},{} mission start",Thread.currentThread().getName(),Thread.currentThread().getId());
+		
 		while(runCount<this.classDefine.getCount()) {
 			Object object = creator.createObject();
 			String message = ObjectUtils.printObject(object);

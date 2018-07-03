@@ -35,18 +35,15 @@ public class Run implements Serializable{
 			return;
 		}
 		File sourceDir = new File(classDefinePath);
-		String fileFilterRegx = params.get("-filter");
-		File[] files;
-		if(fileFilterRegx==null || "".equals(fileFilterRegx)) {
-			files = sourceDir.listFiles();
-		}else {
-			files = sourceDir.listFiles(new FileFilter() {
-				@Override
-				public boolean accept(File pathname) {
-					return pathname.getAbsolutePath().matches(fileFilterRegx);
-				}
-			});
-		}
+		final String fileFilterRegx = (params.get("-filter")==null || "".equals(params.get("-filter")))?".*":params.get("-filter");
+		File[] files = sourceDir.listFiles();
+		files = sourceDir.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File pathname) {
+				System.out.println(pathname.getAbsolutePath());
+				return pathname.getAbsolutePath().matches(fileFilterRegx);
+			}
+		});
 		ApplicationContext applicationContext = SpringApplication.run(ApplicationConfiguration.class, args);
 		KafkaTemplate<String,String> template = applicationContext.getBean(KafkaTemplate.class);
 		for(File file:files) {
@@ -55,8 +52,5 @@ public class Run implements Serializable{
 			Thread thread = new Thread(sendThread);
 			thread.start();
 		}
-//		EntityService<EntityBean, EntityRepository<EntityBean>> e = null;
-//		e.batchRemove(new Serializable[] {"1","2","4"});
-//		e.find
 	}
 }
