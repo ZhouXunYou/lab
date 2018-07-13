@@ -61,10 +61,4 @@ trait EntityService[Entity <: EntityBean, Repository <: EntityRepository[Entity]
    */
   def find(fieldConditions: JavaList[FieldCondition], pagination: Pagination, sorts: Array[Sortor]): Page[Entity]
   
-  /**
-   * 利用SQL直接查询，select * from t where column = :paramName
-   * sql 中通过 :<参数名> 指定参数名,
-   * params中key为参数，value为参数最终执行SQL时替换的值
-   */
-  def nativeSQL(sql:String,params:JavaMap[String,Any]): JavaList[Entity]
 }

@@ -18,9 +18,11 @@ import lab.crud.suport.XOR
 import lab.crud.suport.Sortor
 import lab.crud.suport.SortDirection
 import lab.crud.suport.Pagination
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing
 
 @RunWith(classOf[SpringRunner])
 @SpringBootTest(classes=Array(classOf[RunConfig]))
+@EnableJpaAuditing
 class CrudTest {
   @Autowired
   private var testService:TestService = _
@@ -35,8 +37,8 @@ class CrudTest {
   @Test
   def testAdd:Unit = {
     val t:lab.crud.scala.entity.Test = new lab.crud.scala.entity.Test()
-    t.setCreateTime(new Date());
-    t.setUpdateTime(new Date());
+//    t.setCreateTime(new Date());
+//    t.setUpdateTime(new Date());
     println(testService.saveOrUpdate(t))
   }
   @Test
@@ -52,6 +54,13 @@ class CrudTest {
       tests.add(t)
     }
     testService.batchSaveOrUpdate(tests)
+  }
+  @Test
+  def testUpdate:Unit = {
+    val t:lab.crud.scala.entity.Test = new lab.crud.scala.entity.Test()
+    t.setId("402888816491e025016491e02af00000");
+    t.setName("aaaaaaaa")
+    testService.saveOrUpdate(t);
   }
   @Test
   def testRemoveBySerializable:Unit = {
