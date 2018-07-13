@@ -25,6 +25,7 @@
 		<spec2.version>4.2.0</spec2.version>
 		<spark.version>2.3.1</spark.version>
 		<lucene.version>7.4.0</lucene.version>
+		<storm.version>1.2.2</storm.version>
 	</properties>
 	<build>
 		<plugins>
@@ -178,5 +179,7 @@
 		<module>lab-crud</module>
 		<module>lab-spark-stream</module>
 		<module>lab-lucene</module>
+		<module>lab-kafka</module>
+		<module>lab-storm</module>
 	</modules>
 </project>
