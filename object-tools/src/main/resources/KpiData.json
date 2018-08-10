@@ -1,8 +1,8 @@
 {
 	"className":"$dynamic.KpiData",
-	"cycle":1000,
+	"cycle":1,
 	"count":-1,
-	"topic":"kpidata",
+	"topic":"test",
 	"fields":[
 		{
 			"fieldName":"kpiCode",

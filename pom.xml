@@ -26,6 +26,7 @@
 		<spark.version>2.3.1</spark.version>
 		<lucene.version>7.4.0</lucene.version>
 		<storm.version>1.2.2</storm.version>
+		<opentsdb.version>2.3.1</opentsdb.version>
 	</properties>
 	<build>
 		<plugins>
@@ -170,6 +171,32 @@
 				<groupId>org.apache.lucene</groupId>
 				<artifactId>lucene-spatial3d</artifactId>
 				<version>${lucene.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.storm</groupId>
+				<artifactId>storm-core</artifactId>
+				<version>${storm.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.storm</groupId>
+				<artifactId>storm-kafka</artifactId>
+				<version>${storm.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.storm</groupId>
+				<artifactId>storm-kafka-client</artifactId>
+				<version>${storm.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>net.opentsdb</groupId>
+				<artifactId>opentsdb</artifactId>
+				<version>${opentsdb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
