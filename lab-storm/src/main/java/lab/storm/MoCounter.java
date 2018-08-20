@@ -1,6 +1,7 @@
 package lab.storm;
 
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.BasicOutputCollector;
@@ -42,4 +43,18 @@ public class MoCounter extends BaseBasicBolt {
 		
 	}
 
+//	public static void main(String[] args) {
+//		for(int j=0;j<10;j++) {
+//			Random random = new Random();
+//			
+//			int rate = 0;
+//			for(int i=0;i<10000000;i++) {
+//				int value = (int)(1+Math.random()*100);
+//				if(value<=3) {
+//					rate++;
+//				}
+//			}
+//			System.out.println(rate/10000000d);
+//		}
+//	}
 }

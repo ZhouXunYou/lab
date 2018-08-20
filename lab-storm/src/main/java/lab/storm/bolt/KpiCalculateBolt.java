@@ -51,9 +51,6 @@ public class KpiCalculateBolt extends BaseBasicBolt {
 	}
 	
 	private KpiExecutor buildExcutor(KQI kqi) throws  CannotCompileException, ClassNotFoundException, InstantiationException, IllegalAccessException, NotFoundException {
-//		String className = KpiExecutor.class.getName()+"_"+kqi.getKqiCode();
-		
-//		loadClass(className);
 		
 		KpiExecutor kpiExecutor = null;
 		//通过kqiCode获取本地缓存，缓存信息：key=版本号,value=KpiExecutor Object

@@ -6,11 +6,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import lab.storm.kqi.KQI;
+import lab.storm.model.AlarmRule;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 
@@ -30,8 +33,33 @@ public class RedisRW {
 		cache = new JedisCluster(jedisClusterNodes);
 	}
 	public static void main(String[] args) {
-		writeKqi("52010010081", "52910010081");
-		readKqi("10010030031");
+//		writeKqi("52010010081", "52910010081");
+//		readKqi("10010030031");
+		readAlarmRule("ZHOUXUNYOU0000000000000000000000","10010110051");
+	}
+	public static void writeAlarmRule(String moId,String kpiCode) {
+		Map<byte[],byte[]> ruleMap = new HashMap<>();
+		List<AlarmRule> alarmRules = new ArrayList<>();
+		AlarmRule ar = new AlarmRule();
+		ar.setId("testRule");
+		ar.setKpiCode("10010110051");
+		
+		
+		alarmRules.add(ar);
+		
+		ruleMap.put("10010110051".getBytes(), ObjectByteOperations.object2byte(alarmRules));
+		cache.hmset(moId.getBytes(), ruleMap);
+		
+	}
+	
+	public static void readAlarmRule(String moId,String kpiCode) {
+		
+		List<AlarmRule> alarmRules = (List<AlarmRule>)ObjectByteOperations.byte2Object(cache.hget(moId.getBytes(), kpiCode.getBytes()));
+		alarmRules.forEach(rule->{
+			System.out.println(rule.getId());
+			System.out.println(rule.getKpiCode());
+		});
+		
 	}
 	
 	public static void writeKqi(String kpiCode,String kqiCode) {
@@ -43,6 +71,7 @@ public class RedisRW {
 		kqis.add(kqi);
 		cache.set(("KQI_"+kpiCode).getBytes(), object2byte(kqis));
 	}
+	
 	@SuppressWarnings("unchecked")
 	public static void readKqi(String kpiCode) {
 		
