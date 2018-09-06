@@ -48,6 +48,9 @@ public class Json2DatapackageBolt extends BaseBasicBolt {
 		
 	}
 	
+	/**
+	 * 从kafka_spout获取数据，将json串转换为datapackage对象
+	 */
 	@Override
 	public void execute(Tuple input, BasicOutputCollector collector) {
 		try {
@@ -61,6 +64,7 @@ public class Json2DatapackageBolt extends BaseBasicBolt {
 					kqis.addAll(kqiByKpi);
 				}
 			}
+			//是否需要KQI记算
 			if(kqis.size()>0) {
 				count++;
 				if(count%3==0) {

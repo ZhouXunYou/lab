@@ -19,7 +19,6 @@ import lab.storm.bolt.CacheBolt;
 import lab.storm.bolt.InfluxBolt;
 import lab.storm.bolt.Json2DatapackageBolt;
 import lab.storm.bolt.KpiCalculateBolt;
-import lab.storm.bolt.TimeSeriesBolt;
 
 
 @Component
@@ -57,28 +56,29 @@ public class StormLoader implements ApplicationListener<ContextRefreshedEvent> {
 				.builder(kafkaServers, topic)
 				.setProp(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest")
 				.setProp(ConsumerConfig.GROUP_ID_CONFIG,"STORM_GROUP")
-//				ConsumerConfig.PART
 //				.setProp(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
 //				.setProp(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG,"true")
 				.build();
-		topologyBuilder.setSpout("kafka_spout", new KafkaSpout<>(kafkaSpoutConfig), 1);
+		topologyBuilder.setSpout("kafka_spout", new KafkaSpout<>(kafkaSpoutConfig));
 		
 		
 		String json2DatapackageBolt = Json2DatapackageBolt.class.getSimpleName();
 		String kpiCalculateBolt = KpiCalculateBolt.class.getSimpleName();
 		String cacheBolt = CacheBolt.class.getSimpleName();
-//		String timeSeriesBolt = TimeSeriesBolt.class.getSimpleName();
 		String influxBolt = InfluxBolt.class.getSimpleName();
 		
+		//将json串转换成datapackage对象
 		topologyBuilder.setBolt(json2DatapackageBolt, new Json2DatapackageBolt(),5).shuffleGrouping("kafka_spout");
 		
 		topologyBuilder.setBolt(kpiCalculateBolt, new KpiCalculateBolt()).shuffleGrouping(json2DatapackageBolt,kpiCalculateBolt);
 		
-		topologyBuilder.setBolt(cacheBolt, new CacheBolt(),5)
-			.shuffleGrouping(json2DatapackageBolt)
-			.shuffleGrouping(kpiCalculateBolt);
 		
-		topologyBuilder.setBolt(influxBolt, new InfluxBolt(),5).shuffleGrouping(cacheBolt);
+		
+		topologyBuilder.setBolt(cacheBolt, new CacheBolt(),5)
+			.shuffleGrouping(json2DatapackageBolt,cacheBolt+"_"+json2DatapackageBolt)
+			.shuffleGrouping(kpiCalculateBolt,cacheBolt+"_"+kpiCalculateBolt);
+		
+		topologyBuilder.setBolt(influxBolt, new InfluxBolt(),5).shuffleGrouping(cacheBolt,influxBolt);
 		
 		
 //		topologyBuilder.setBolt(timeSeriesBolt, new TimeSeriesBolt(),5).shuffleGrouping(cacheBolt);

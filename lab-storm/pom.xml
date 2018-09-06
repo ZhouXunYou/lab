@@ -63,9 +63,14 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>redis.clients</groupId>
-			<artifactId>jedis</artifactId>
+		    <groupId>org.apache.storm</groupId>
+		    <artifactId>storm-redis</artifactId>
 		</dependency>
+		
+<!-- 		<dependency> -->
+<!-- 			<groupId>redis.clients</groupId> -->
+<!-- 			<artifactId>jedis</artifactId> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>

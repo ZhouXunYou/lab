@@ -183,6 +183,11 @@
 				<version>${storm.version}</version>
 			</dependency>
 			<dependency>
+			    <groupId>org.apache.storm</groupId>
+			    <artifactId>storm-redis</artifactId>
+			    <version>${storm.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.apache.storm</groupId>
 				<artifactId>storm-kafka-client</artifactId>
 				<version>${storm.version}</version>
@@ -208,5 +213,7 @@
 		<module>lab-lucene</module>
 		<module>lab-kafka</module>
 		<module>lab-storm</module>
+		<module>lab-storm-plugins</module>
+		<module>lab-flink</module>
 	</modules>
 </project>

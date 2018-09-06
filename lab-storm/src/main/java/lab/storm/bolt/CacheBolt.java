@@ -60,6 +60,7 @@ public class CacheBolt extends BaseBasicBolt {
 						ObjectInputStream ois = new ObjectInputStream(bis);
 						AlarmRule alarmRule = (AlarmRule)ois.readObject();
 						alarmRules.add(alarmRule);
+						ois.close();
 					}
 				} catch (IOException | ClassNotFoundException e) {
 					e.printStackTrace();
@@ -70,12 +71,10 @@ public class CacheBolt extends BaseBasicBolt {
 			 */
 			byte[] key = String.format("%s_%s", datapackage.getMoId(),kpiCode).getBytes();
 			cache.lpush(key, ObjectByteOperations.object2byte(kpiDatas));
-//			cache.set
 			cache.ltrim(key, 0, 9);
-//			cache.expire
 		});
 		System.out.println(String.format("mo %s data write cache", datapackage.getMoId()));
-		collector.emit(new Values(datapackage));
+		collector.emit(InfluxBolt.class.getSimpleName(),new Values(datapackage));
 		
 		/*
 		 * 将告警规则及数据包发送至AlarmBolt
@@ -87,7 +86,8 @@ public class CacheBolt extends BaseBasicBolt {
 	
 	@Override
 	public void declareOutputFields(OutputFieldsDeclarer declarer) {
-		declarer.declare(new Fields("datapackage","alarmRules"));
+		declarer.declareStream(ThresholdBolt.class.getSimpleName(), false, new Fields("datapackage","alarmRules"));
+		declarer.declareStream(InfluxBolt.class.getSimpleName(),false,new Fields("datapackage"));
 	}
 
 }

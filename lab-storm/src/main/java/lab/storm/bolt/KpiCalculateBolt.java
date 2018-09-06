@@ -82,7 +82,6 @@ public class KpiCalculateBolt extends BaseBasicBolt {
 		return kpiExecutor;
 	}
 	
-	
 	private Class<?> loadClass(KQI kqi) throws NotFoundException, CannotCompileException {
 		String name = String.format("%s.KQI_%S_%d", KpiCalculateBolt.class.getPackage().getName(),kqi.getKqiCode(),kqi.getVersion());
 		CtClass ctClass = classPool.makeClass(name);
